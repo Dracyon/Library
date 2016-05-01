@@ -45,6 +45,7 @@ namespace Library.Repository.Migrations
                         CreationDate = c.DateTime(nullable: false),
                         UpdatenDate = c.DateTime(nullable: false),
                         BookId = c.Int(nullable: false),
+                        Comment = c.String(maxLength: 250),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Books", t => t.BookId, cascadeDelete: true)

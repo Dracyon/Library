@@ -25,6 +25,10 @@ namespace Library.Repository.Models
 
 		public int BookId { get; set; }
 
+		[Display(Name = "Comment")]
+		[MaxLength(250)]
+		public string Comment { get; set; }
+
 		public virtual Book Book { get; set; }
 	}
 }

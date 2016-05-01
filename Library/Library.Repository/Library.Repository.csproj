@@ -150,9 +150,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201605011828169_starting.cs" />
-    <Compile Include="Migrations\201605011828169_starting.Designer.cs">
-      <DependentUpon>201605011828169_starting.cs</DependentUpon>
+    <Compile Include="Migrations\201605011904189_starting.cs" />
+    <Compile Include="Migrations\201605011904189_starting.Designer.cs">
+      <DependentUpon>201605011904189_starting.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -161,10 +161,13 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\RentHistory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\BookRepository.cs" />
+    <Compile Include="Repository\IRepository\IBookRepository.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605011828169_starting.resx">
-      <DependentUpon>201605011828169_starting.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605011904189_starting.resx">
+      <DependentUpon>201605011904189_starting.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
