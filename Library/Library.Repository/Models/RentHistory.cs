@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices;
 
-namespace Library.Models
+namespace Library.Repository.Models
 {
 	public class RentHistory
 	{

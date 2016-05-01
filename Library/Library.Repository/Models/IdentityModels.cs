@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace Library.Models
+namespace Library.Repository.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
 
@@ -16,5 +16,9 @@ namespace Library.Models
         {
             return new ApplicationDbContext();
         }
+
+		public DbSet<Book> Books { get; set; }
+		public DbSet<RentHistory> RentHistories { get; set; }
+		public DbSet<Category> Categories { get; set; }
     }
 }

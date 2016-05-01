@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
-namespace Library.Models
+namespace Library.Repository.Models
 {
 	public class Book
 	{
@@ -33,7 +31,6 @@ namespace Library.Models
 		public bool Available { get; set; }
 
 		public List<RentHistory> RentHistories { get; set; }
-
 
 		[Display(Name = "Creation date")]
 		[DataType(DataType.Date)]

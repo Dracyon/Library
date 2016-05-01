@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Library.Models;
+using Library.Repository.Models;
 
 namespace Library
 {

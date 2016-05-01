@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Library.Models;
+using Library.Models.View;
+using Library.Repository.Models;
 
 namespace Library.Controllers
 {
