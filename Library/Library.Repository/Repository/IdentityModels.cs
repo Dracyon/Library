@@ -1,12 +1,14 @@
 ﻿using System.Data.Entity;
+using Library.Repository.Models;
+using Library.Repository.Repository.IRepository;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace Library.Repository.Models
+namespace Library.Repository.Repository
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
 
-	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-    {
+	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+	{
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

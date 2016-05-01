@@ -12,6 +12,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Library.Models;
 using Library.Repository.Models;
+using Library.Repository.Repository;
 
 namespace Library
 {

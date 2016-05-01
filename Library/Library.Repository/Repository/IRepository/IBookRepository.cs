@@ -10,7 +10,7 @@ namespace Library.Repository.Repository.IRepository
 		void CreateBook(Book book);
 		void DeleteBook(int id);
 		void UpdateBook(Book book);
-		List<Category> GetCategories(int categoryId);
+		IEnumerable<Category> GetCategories();
 		void SaveChanges();
 		void RentBookToFriend(RentHistory rentHistory);
 		void ReturnBookFromFriend(Book book);

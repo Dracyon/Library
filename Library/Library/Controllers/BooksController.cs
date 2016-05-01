@@ -1,24 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Library.Repository.Models;
+using Library.Repository.Repository;
+using Library.Repository.Repository.IRepository;
 
 namespace Library.Controllers
 {
-    public class BooksController : Controller
-    {
-        private ApplicationDbContext db = new ApplicationDbContext();
+	public class BooksController : Controller
+	{
+		private IBookRepository _bookRepository;
 
+		public BooksController(IBookRepository bookRepository)
+		{
+			_bookRepository = bookRepository;
+		}
         // GET: Books
         public ActionResult Index()
         {
-            var books = db.Books.Include(b => b.Category);
-            return View(books.ToList());
+            var books = _bookRepository.GetBooks();
+            return View(books);
         }
 
         // GET: Books/Details/5
@@ -28,7 +30,7 @@ namespace Library.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+	        Book book = _bookRepository.GetBookById(id.Value);
             if (book == null)
             {
                 return HttpNotFound();
@@ -39,7 +41,7 @@ namespace Library.Controllers
         // GET: Books/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
+            ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name");
             return View();
         }
 
@@ -52,12 +54,12 @@ namespace Library.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Books.Add(book);
-                db.SaveChanges();
+                _bookRepository.CreateBook(book);
+                _bookRepository.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", book.CategoryId);
+            ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
             return View(book);
         }
 
@@ -68,12 +70,12 @@ namespace Library.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+	        Book book = _bookRepository.GetBookById(id.Value);
             if (book == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", book.CategoryId);
+            ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
             return View(book);
         }
 
@@ -86,11 +88,11 @@ namespace Library.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(book).State = EntityState.Modified;
-                db.SaveChanges();
+                _bookRepository.UpdateBook(book);
+                _bookRepository.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", book.CategoryId);
+            ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
             return View(book);
         }
 
@@ -101,7 +103,7 @@ namespace Library.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+	        Book book = _bookRepository.GetBookById(id.Value);
             if (book == null)
             {
                 return HttpNotFound();
@@ -114,19 +116,52 @@ namespace Library.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Book book = db.Books.Find(id);
-            db.Books.Remove(book);
-            db.SaveChanges();
+	        Book book = _bookRepository.GetBookById(id);
+            _bookRepository.DeleteBook(id);
+            _bookRepository.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-    }
+		// POST: Books/RentToFriend/5
+		[HttpPost, ActionName("RentToFriend")]
+		[ValidateAntiForgeryToken]
+		public ActionResult RentToFriend(RentHistory rentHistory)
+		{
+			if (ModelState.IsValid)
+			{
+				_bookRepository.RentBookToFriend(rentHistory);
+				_bookRepository.SaveChanges();
+				return RedirectToAction("Index");
+			}
+
+			return View(rentHistory);
+
+		}
+
+		// POST: Books/ReturnBook/5
+		[HttpPost, ActionName("ReturnBook")]
+		[ValidateAntiForgeryToken]
+		public ActionResult ReturnBook(int id)
+		{
+			var book = _bookRepository.GetBookById(id);
+			_bookRepository.ReturnBookFromFriend(book);
+			_bookRepository.SaveChanges();
+			return RedirectToAction("Index");
+		}
+
+		// GET: Books/RentToFriend/5
+		public ActionResult RentToFriend(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Book book = _bookRepository.GetBookById(id.Value);
+			if (book == null)
+			{
+				return HttpNotFound();
+			}
+			return View(new RentHistory() {BookId = book.Id});
+		}
+	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using Library.Repository.Models;
 using Library.Repository.Repository.IRepository;
@@ -48,10 +49,9 @@ namespace Library.Repository.Repository
 			_db.Entry(book).State = EntityState.Modified;
 		}
 
-		public List<Category> GetCategories(int categoryId)
+		public IEnumerable<Category> GetCategories()
 		{
-			//return new SelectList(_db.Categories, "Id", "Name", categoryId.ToString());
-			return _db.Categories.ToList();
+			return _db.Categories;
 		}
 		public void SaveChanges()
 		{

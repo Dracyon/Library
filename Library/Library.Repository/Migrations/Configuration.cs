@@ -1,4 +1,6 @@
 
+using Library.Repository.Repository;
+
 namespace Library.Repository.Migrations
 {
 	using Library.Repository.Models;
@@ -9,14 +11,14 @@ namespace Library.Repository.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Library.Repository.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Library.Repository.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
 			//For debuggin seed method
 			//if (System.Diagnostics.Debugger.IsAttached.Equals(false))
