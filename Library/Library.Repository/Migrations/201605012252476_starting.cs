@@ -8,7 +8,7 @@ namespace Library.Repository.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Books",
+                "dbo.Book",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -21,12 +21,12 @@ namespace Library.Repository.Migrations
                         UpdatenDate = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Categories", t => t.CategoryId, cascadeDelete: true)
+                .ForeignKey("dbo.Category", t => t.CategoryId, cascadeDelete: true)
                 .Index(t => t.CategoryId)
                 .Index(t => t.Isbn, unique: true, name: "ISBN_index");
             
             CreateTable(
-                "dbo.Categories",
+                "dbo.Category",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -37,7 +37,7 @@ namespace Library.Repository.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.RentHistories",
+                "dbo.RentHistory",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -48,7 +48,7 @@ namespace Library.Repository.Migrations
                         Comment = c.String(maxLength: 250),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Books", t => t.BookId, cascadeDelete: true)
+                .ForeignKey("dbo.Book", t => t.BookId, cascadeDelete: true)
                 .Index(t => t.BookId);
             
             CreateTable(
@@ -127,25 +127,25 @@ namespace Library.Repository.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.RentHistories", "BookId", "dbo.Books");
-            DropForeignKey("dbo.Books", "CategoryId", "dbo.Categories");
+            DropForeignKey("dbo.RentHistory", "BookId", "dbo.Book");
+            DropForeignKey("dbo.Book", "CategoryId", "dbo.Category");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.RentHistories", new[] { "BookId" });
-            DropIndex("dbo.Books", "ISBN_index");
-            DropIndex("dbo.Books", new[] { "CategoryId" });
+            DropIndex("dbo.RentHistory", new[] { "BookId" });
+            DropIndex("dbo.Book", "ISBN_index");
+            DropIndex("dbo.Book", new[] { "CategoryId" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.RentHistories");
-            DropTable("dbo.Categories");
-            DropTable("dbo.Books");
+            DropTable("dbo.RentHistory");
+            DropTable("dbo.Category");
+            DropTable("dbo.Book");
         }
     }
 }

@@ -31,6 +31,7 @@ namespace Library.Repository.Repository
 		public void CreateBook(Book book)
 		{
 			book.CreationDate = DateTime.Now;
+			book.UpdatenDate = DateTime.Now;
 			book.Available = true;
 			book.RentHistories = new List<RentHistory>();
 			_db.Books.Add(book);
@@ -39,7 +40,6 @@ namespace Library.Repository.Repository
 		public void DeleteBook(int id)
 		{
 			Book book = GetBookById(id);
-			//TODO Kaskadowe usuwanie
 			_db.Books.Remove(book);
 		}
 
