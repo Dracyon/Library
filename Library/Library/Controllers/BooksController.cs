@@ -161,6 +161,7 @@ namespace Library.Controllers
 			{
 				return HttpNotFound();
 			}
+			ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
 			return View(new RentHistory() {BookId = book.Id});
 		}
 	}
