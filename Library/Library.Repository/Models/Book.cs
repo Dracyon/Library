@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Repository.Models
 {
@@ -11,12 +12,12 @@ namespace Library.Repository.Models
 
 		[Display(Name = "Title: ")]
 		[Required]
-		[MaxLength(70)]
+		[MaxLength(120)]
 		public string Title { get; set; }
 
 		[Display(Name = "Author: ")]
 		[Required]
-		[MaxLength(50)]
+		[MaxLength(80)]
 		public string Author { get; set; }
 
 		public int CategoryId { get; set; }
@@ -24,6 +25,7 @@ namespace Library.Repository.Models
 
 		[Display(Name = "ISBN: ")]
 		[Required]
+		[Index("ISBN_index", 1, IsUnique = true)]
 		[MaxLength(13)]
 		public string Isbn { get; set; }
 
