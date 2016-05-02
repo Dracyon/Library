@@ -22,11 +22,11 @@ namespace Library.Controllers
 			_bookRepository = bookRepository;
 		}
         // GET: Books
-        public ActionResult Index(bool? isEdit, bool? isDeleted, bool? isRent, bool? isReturn, bool? isError, int? page, string sortOrder)
+        public ActionResult Index(bool? isEdit, bool? isDeleted, bool? isRent, bool? isReturn, bool? isError, bool? isCreated, int? page, string sortOrder)
         {
 	        try
 	        {
-		        int currentPage = page ?? 1;
+				int currentPage = page ?? 1;
 		        int pageSize = 20;
 				var books = _bookRepository.GetBooks();
 		        ViewBag.CurrentSort = sortOrder;
@@ -83,7 +83,9 @@ namespace Library.Controllers
 			        ViewBag.IsRent = true;
 		        if (isReturn != null && isReturn.Value)
 			        ViewBag.IsReturn = true;
-
+				if (isCreated != null && isCreated.Value)
+					ViewBag.IsCreated = true;
+				
 				var booksList = new List<Book>();
 
 		        if (books != null)
@@ -101,24 +103,38 @@ namespace Library.Controllers
         // GET: Books/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-	        List<RentHistory> bookHistory = _bookRepository.GetBookRentHistory(id.Value);
-            if (bookHistory == null || bookHistory.Count == 0)
-            {
-				return RedirectToAction("DetailsWithoutHistory", _bookRepository.GetBookById(id.Value));
-            }
-            return View(bookHistory);
+	        try
+	        {
+		        if (id == null)
+		        {
+			        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+		        }
+		        List<RentHistory> bookHistory = _bookRepository.GetBookRentHistory(id.Value);
+		        if (bookHistory == null || bookHistory.Count == 0)
+		        {
+			        return RedirectToAction("DetailsWithoutHistory", _bookRepository.GetBookById(id.Value));
+		        }
+		        return View(bookHistory);
+	        }
+	        catch (Exception e)
+	        {
+		        return RedirectToAction("Index", new {isError = true});
+	        }
         }
 
         // GET: Books/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name");
-            return View();
-        }
+	        try
+	        {
+		        ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name");
+		        return View();
+	        }
+			catch (Exception e)
+			{
+				return RedirectToAction("Index", new { isError = true });
+			}
+		}
 
         // POST: Books/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -127,32 +143,46 @@ namespace Library.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Title,Author,CategoryId,Isbn,Available")] Book book)
         {
-            if (ModelState.IsValid)
-            {
-                _bookRepository.CreateBook(book);
-                _bookRepository.SaveChanges();
-                return RedirectToAction("Index");
-            }
+	        try
+	        {
+		        if (ModelState.IsValid)
+		        {
+			        _bookRepository.CreateBook(book);
+			        _bookRepository.SaveChanges();
+					return RedirectToAction("Index", new { isCreated = true });
+				}
 
-            ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
-            return View(book);
-        }
+		        ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
+		        return View(book);
+	        }
+			catch (Exception e)
+			{
+				return RedirectToAction("Index", new { isError = true });
+			}
+		}
 
         // GET: Books/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-	        Book book = _bookRepository.GetBookById(id.Value);
-            if (book == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
-            return View(book);
-        }
+	        try
+	        {
+		        if (id == null)
+		        {
+			        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+		        }
+		        Book book = _bookRepository.GetBookById(id.Value);
+		        if (book == null)
+		        {
+			        return HttpNotFound();
+		        }
+		        ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
+		        return View(book);
+	        }
+			catch (Exception e)
+			{
+				return RedirectToAction("Index", new { isError = true });
+			}
+		}
 
         // POST: Books/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -161,82 +191,124 @@ namespace Library.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Title,Author,CategoryId,Isbn,Available,CreationDate")] Book book)
         {
-            if (ModelState.IsValid)
-            {
-                _bookRepository.UpdateBook(book);
-                _bookRepository.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
-            return View(book);
-        }
+	        try
+	        {
+		        if (ModelState.IsValid)
+		        {
+			        _bookRepository.UpdateBook(book);
+			        _bookRepository.SaveChanges();
+			        return RedirectToAction("Index", new {isEdit = true});
+		        }
+		        ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
+		        return View(book);
+	        }
+			catch (Exception e)
+			{
+				return RedirectToAction("Index", new { isError = true });
+			}
+		}
 
         // GET: Books/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-	        Book book = _bookRepository.GetBookById(id.Value);
-            if (book == null)
-            {
-                return HttpNotFound();
-            }
-            return View(book);
-        }
+	        try
+	        {
+		        if (id == null)
+		        {
+			        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+		        }
+		        Book book = _bookRepository.GetBookById(id.Value);
+		        if (book == null)
+		        {
+			        return HttpNotFound();
+		        }
+		        return View(book);
+	        }
+			catch (Exception e)
+			{
+				return RedirectToAction("Index", new { isError = true });
+			}
+		}
 
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-	        Book book = _bookRepository.GetBookById(id);
-            _bookRepository.DeleteBook(id);
-            _bookRepository.SaveChanges();
-            return RedirectToAction("Index");
-        }
+	        try
+	        {
+		        Book book = _bookRepository.GetBookById(id);
+		        _bookRepository.DeleteBook(id);
+		        _bookRepository.SaveChanges();
+		        return RedirectToAction("Index", new {isDeleted = true});
+	        }
+			catch (Exception e)
+			{
+				return RedirectToAction("Index", new { isError = true });
+			}
+		}
 
 		// POST: Books/RentToFriend/5
 		[HttpPost, ActionName("RentToFriend")]
 		[ValidateAntiForgeryToken]
 		public ActionResult RentToFriend(RentHistory rentHistory, int id)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				var book = _bookRepository.GetBookById(id);
-				_bookRepository.RentBookToFriend(rentHistory, book);
-				_bookRepository.SaveChanges();
-				return RedirectToAction("Index");
-			}
+				if (ModelState.IsValid)
+				{
+					var book = _bookRepository.GetBookById(id);
+					_bookRepository.RentBookToFriend(rentHistory, book);
+					_bookRepository.SaveChanges();
+					return RedirectToAction("Index", new {isRent = true});
+				}
 
-			return View(rentHistory);
+				return View(rentHistory);
+			}
+			catch (Exception e)
+			{
+				return RedirectToAction("Index", new { isError = true });
+			}
 
 		}
 
 		// GET: Books/ReturnBook/5
 		public ActionResult ReturnBook(int id)
 		{
-			var book = _bookRepository.GetBookById(id);
-			_bookRepository.ReturnBookFromFriend(book);
-			_bookRepository.SaveChanges();
-			return RedirectToAction("Index");
+			try
+			{
+				var book = _bookRepository.GetBookById(id);
+				_bookRepository.ReturnBookFromFriend(book);
+				_bookRepository.SaveChanges();
+				return RedirectToAction("Index", new {isReturn = true});
+			}
+			catch (Exception e)
+			{
+				return RedirectToAction("Index", new { isError = true });
+			}
 		}
 
 		// GET: Books/RentToFriend/5
 		public ActionResult RentToFriend(int? id)
 		{
-			if (id == null)
+			try
 			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+				if (id == null)
+				{
+					return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+				}
+				Book book = _bookRepository.GetBookById(id.Value);
+				if (book == null)
+				{
+					return HttpNotFound();
+				}
+				ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
+				return View(new RentHistory() {BookId = book.Id});
 			}
-			Book book = _bookRepository.GetBookById(id.Value);
-			if (book == null)
+			catch (Exception e)
 			{
-				return HttpNotFound();
+				return RedirectToAction("Index", new { isError = true });
 			}
-			ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
-			return View(new RentHistory() {BookId = book.Id});
 		}
 
 		// GET: Books/Search/test
@@ -259,12 +331,19 @@ namespace Library.Controllers
 
 		public ActionResult DetailsWithoutHistory(Book book)
 		{
-			book = _bookRepository.GetBookById(book.Id);
-			if (book == null)
+			try
 			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+				book = _bookRepository.GetBookById(book.Id);
+				if (book == null)
+				{
+					return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+				}
+				return View(book);
 			}
-			return View(book);
+			catch (Exception e)
+			{
+				return RedirectToAction("Index", new { isError = true });
+			}
 		}
 	}
 }

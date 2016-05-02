@@ -8,7 +8,12 @@
 }
 
 <h2>@ViewBag.PageTitle</h2>
-
+@if (ViewBag.IsCreated == true)
+{
+    <div class="alert alert-success" role="alert">
+        Book has been created.
+    </div>
+}
 @if (ViewBag.IsDeleted == true)
 {
     <div class="alert alert-success" role="alert">

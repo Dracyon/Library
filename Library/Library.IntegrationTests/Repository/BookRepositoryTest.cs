@@ -45,16 +45,13 @@ namespace Library.IntegrationTests.Repository
 				Isbn = "1231231231231"
 			};
 			sut.CreateBook(book);
-			var book2 = sut.GetBooks();
-			//Assert.That(
-			//	sut.GetBooks().Any(
-			//		x =>
-			//			x.Title == book.Title && x.Isbn == book.Isbn && x.Author == book.Author && x.Available == true));
-			Assert.That(book2.Any(x => x.Title == book.Title), "Title");
-			Assert.That(book2.Any(x => x.Author == book.Author),"Author");
-			Assert.That(book2.Any(x => x.Isbn == book.Isbn), "isbn");
-			Assert.That(book2.Any(x => x.Available == true), "available");
-			Assert.That(book2.Any(x => x.Category.Name == "Science Fiction"), "category");
+			sut.SaveChanges();
+			var testBook = sut.GetBooks();
+			Assert.That(testBook.Any(x => x.Title == book.Title), "Title");
+			Assert.That(testBook.Any(x => x.Author == book.Author),"Author");
+			Assert.That(testBook.Any(x => x.Isbn == book.Isbn), "isbn");
+			Assert.That(testBook.Any(x => x.Available == true), "available");
+			Assert.That(testBook.Any(x => x.Category.Name == "Science Fiction"), "category");
 
 		}
 
