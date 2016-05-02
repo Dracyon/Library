@@ -13,6 +13,7 @@ using static System.String;
 
 namespace Library.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	public class BooksController : Controller
 	{
 		private IBookRepository _bookRepository;
