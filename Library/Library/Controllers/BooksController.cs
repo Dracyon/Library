@@ -9,6 +9,7 @@ using Library.Repository.Models;
 using Library.Repository.Repository;
 using Library.Repository.Repository.IRepository;
 using PagedList;
+using static System.String;
 
 namespace Library.Controllers
 {
@@ -104,12 +105,12 @@ namespace Library.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-	        Book book = _bookRepository.GetBookById(id.Value);
-            if (book == null)
+	        List<RentHistory> bookHistory = _bookRepository.GetBookRentHistory(id.Value);
+            if (bookHistory == null || bookHistory.Count == 0)
             {
-                return HttpNotFound();
+				return RedirectToAction("DetailsWithoutHistory", _bookRepository.GetBookById(id.Value));
             }
-            return View(book);
+            return View(bookHistory);
         }
 
         // GET: Books/Create
@@ -236,6 +237,34 @@ namespace Library.Controllers
 			}
 			ViewBag.CategoryId = new SelectList(_bookRepository.GetCategories(), "Id", "Name", book.CategoryId);
 			return View(new RentHistory() {BookId = book.Id});
+		}
+
+		// GET: Books/Search/test
+		public ActionResult Search(string searchString)
+		{
+			if (!IsNullOrEmpty(searchString))
+			{
+				if (_bookRepository.GetBooks().Any(x => x.Title.ToLower().Contains(searchString.ToLower())))
+					ViewBag.SearchTitle = _bookRepository.GetBooks().Where(x => x.Title.Contains(searchString));
+				if (_bookRepository.GetBooks().Any(x => x.Author.ToLower().Contains(searchString.ToLower())))
+					ViewBag.SearchAuthor = _bookRepository.GetBooks().Where(x => x.Author.ToLower().Contains(searchString.ToLower()));
+				if (_bookRepository.GetBooks().Any(x => x.Isbn.Contains(searchString)))
+					ViewBag.SearchIsbn = _bookRepository.GetBooks().Where(x => x.Isbn.ToLower().Contains(searchString.ToLower()));
+				if (_bookRepository.GetBooks().Any(x => x.Category.Name.Contains(searchString)))
+					ViewBag.SearchCategory = _bookRepository.GetBooks().Where(x => x.Category.Name.ToLower().Contains(searchString.ToLower()));
+				return View();
+			}
+			return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+		}
+
+		public ActionResult DetailsWithoutHistory(Book book)
+		{
+			book = _bookRepository.GetBookById(book.Id);
+			if (book == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			return View(book);
 		}
 	}
 }

@@ -1,0 +1,334 @@
+﻿
+@{
+    ViewBag.PageTitle = "Search result";
+}
+
+<h2>@ViewBag.PageTitle</h2>
+<hr />
+<h3>Search by title</h3>
+<hr />
+@if (ViewBag.SearchTitle != null)
+{
+    <div class="alert alert-success" role="alert">
+        Title search results:
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Author
+            </th>
+            <th>
+                Isbn
+            </th>
+            <th>
+                Available
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Creation date
+            </th>
+            <th>
+                Updaten Date
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in ViewBag.SearchTitle)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Author
+                </td>
+                <td>
+                    @item.Isbn
+                </td>
+                <td>
+                    @item.Available
+                </td>
+                <td>
+                    @item.Category.Name
+                </td>
+                <td>
+                    @item.CreationDate
+                </td>
+                <td>
+                    @item.UpdatenDate
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    @if (item.Available)
+                    {
+                        @Html.ActionLink("Rent", "RentToFriend", new { id = item.Id }, new { @class = "btn btn-info" })
+}
+                    else
+                    {
+                        @Html.ActionLink("Return", "ReturnBook", new { id = item.Id }, new { @class = "btn btn-warning" })
+}
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        Found no results. Try widening your search criteria
+    </div>
+}
+<hr />
+<h3>Search by author</h3>
+<hr />
+@if (ViewBag.SearchAuthor != null)
+{
+    <div class="alert alert-success" role="alert">
+        Author search results:
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Author
+            </th>
+            <th>
+                Isbn
+            </th>
+            <th>
+                Available
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Creation date
+            </th>
+            <th>
+                Updaten Date
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in ViewBag.SearchAuthor)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Author
+                </td>
+                <td>
+                    @item.Isbn
+                </td>
+                <td>
+                    @item.Available
+                </td>
+                <td>
+                    @item.Category.Name
+                </td>
+                <td>
+                    @item.CreationDate
+                </td>
+                <td>
+                    @item.UpdatenDate
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    @if (item.Available)
+                    {
+                        @Html.ActionLink("Rent", "RentToFriend", new { id = item.Id }, new { @class = "btn btn-info" })
+}
+                    else
+                    {
+                        @Html.ActionLink("Return", "ReturnBook", new { id = item.Id }, new { @class = "btn btn-warning" })
+}
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        Found no results. Try widening your search criteria
+    </div>
+}
+<hr />
+<h3>Search by isbn</h3>
+<hr />
+@if (ViewBag.SearchIsbn != null)
+{
+    <div class="alert alert-success" role="alert">
+        Isbn search results:
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Author
+            </th>
+            <th>
+                Isbn
+            </th>
+            <th>
+                Available
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Creation date
+            </th>
+            <th>
+                Updaten Date
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in ViewBag.SearchIsbn)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Author
+                </td>
+                <td>
+                    @item.Isbn
+                </td>
+                <td>
+                    @item.Available
+                </td>
+                <td>
+                    @item.Category.Name
+                </td>
+                <td>
+                    @item.CreationDate
+                </td>
+                <td>
+                    @item.UpdatenDate
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    @if (item.Available)
+                    {
+                        @Html.ActionLink("Rent", "RentToFriend", new { id = item.Id }, new { @class = "btn btn-info" })
+}
+                    else
+                    {
+                        @Html.ActionLink("Return", "ReturnBook", new { id = item.Id }, new { @class = "btn btn-warning" })
+}
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        Found no results. Try widening your search criteria
+    </div>
+}
+<hr />
+<h3>Search by category</h3>
+<hr />
+@if (ViewBag.SearchCategory != null)
+{
+    <div class="alert alert-success" role="alert">
+        Category search results:
+    </div>
+    <table class="table">
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Author
+            </th>
+            <th>
+                Isbn
+            </th>
+            <th>
+                Available
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Creation date
+            </th>
+            <th>
+                Updaten Date
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in ViewBag.SearchCategory)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Author
+                </td>
+                <td>
+                    @item.Isbn
+                </td>
+                <td>
+                    @item.Available
+                </td>
+                <td>
+                    @item.Category.Name
+                </td>
+                <td>
+                    @item.CreationDate
+                </td>
+                <td>
+                    @item.UpdatenDate
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                    @if (item.Available)
+                    {
+                        @Html.ActionLink("Rent", "RentToFriend", new { id = item.Id }, new { @class = "btn btn-info" })
+}
+                    else
+                    {
+                        @Html.ActionLink("Return", "ReturnBook", new { id = item.Id }, new { @class = "btn btn-warning" })
+}
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <div class="alert alert-danger" role="alert">
+        Found no results. Try widening your search criteria
+    </div>
+}

@@ -1,4 +1,4 @@
-﻿@model Library.Repository.Models.Book
+﻿@model List<Library.Repository.Models.RentHistory>
 
 @{
     ViewBag.Title = "Details";
@@ -11,64 +11,102 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Category.Name)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Book.Category.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Category.Name)
+            @Html.DisplayFor(model => model.FirstOrDefault().Book.Category.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Book.Title)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.FirstOrDefault().Book.Title)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Author)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Book.Author)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Author)
+            @Html.DisplayFor(model => model.FirstOrDefault().Book.Author)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Isbn)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Book.Isbn)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Isbn)
+            @Html.DisplayFor(model => model.FirstOrDefault().Book.Isbn)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Available)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Book.Available)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Available)
+            @Html.DisplayFor(model => model.FirstOrDefault().Book.Available)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CreationDate)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Book.CreationDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CreationDate)
+            @Html.DisplayFor(model => model.FirstOrDefault().Book.CreationDate)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UpdatenDate)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Book.UpdatenDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.UpdatenDate)
+            @Html.DisplayFor(model => model.FirstOrDefault().Book.UpdatenDate)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new {id = Model.FirstOrDefault().Book.Id}) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+<hr/>
+<h3>Rent History</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().RenterName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Comment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().CreationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().UpdatenDate)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RenterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatenDate)
+            </td>
+        </tr>
+    }
+
+</table>
+

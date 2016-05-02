@@ -78,5 +78,10 @@ namespace Library.Repository.Repository
 			book.UpdatenDate = DateTime.Now;
 			_db.Entry(book).State = EntityState.Modified;
 		}
+
+		public List<RentHistory> GetBookRentHistory(int id)
+		{
+			return _db.RentHistories.Where(x => x.BookId == id).Include(x => x.Book).ToList();
+		}
 	}
 }

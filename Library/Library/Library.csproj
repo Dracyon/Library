@@ -309,6 +309,8 @@
     <Content Include="Views\Books\Edit.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Views\Books\RentToFriend.cshtml" />
+    <Content Include="Views\Books\Search.cshtml" />
+    <Content Include="Views\Books\DetailsWithoutHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

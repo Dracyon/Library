@@ -14,5 +14,6 @@ namespace Library.Repository.Repository.IRepository
 		void SaveChanges();
 		void RentBookToFriend(RentHistory rentHistory, Book book);
 		void ReturnBookFromFriend(Book book);
+		List<RentHistory> GetBookRentHistory(int id);
 	}
 }
