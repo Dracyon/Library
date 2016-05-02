@@ -158,7 +158,7 @@ namespace Library.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Author,CategoryId,Isbn,Available")] Book book)
+        public ActionResult Edit([Bind(Include = "Id,Title,Author,CategoryId,Isbn,Available,CreationDate")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -199,11 +199,12 @@ namespace Library.Controllers
 		// POST: Books/RentToFriend/5
 		[HttpPost, ActionName("RentToFriend")]
 		[ValidateAntiForgeryToken]
-		public ActionResult RentToFriend(RentHistory rentHistory)
+		public ActionResult RentToFriend(RentHistory rentHistory, int id)
 		{
 			if (ModelState.IsValid)
 			{
-				_bookRepository.RentBookToFriend(rentHistory);
+				var book = _bookRepository.GetBookById(id);
+				_bookRepository.RentBookToFriend(rentHistory, book);
 				_bookRepository.SaveChanges();
 				return RedirectToAction("Index");
 			}
@@ -212,9 +213,7 @@ namespace Library.Controllers
 
 		}
 
-		// POST: Books/ReturnBook/5
-		[HttpPost, ActionName("ReturnBook")]
-		[ValidateAntiForgeryToken]
+		// GET: Books/ReturnBook/5
 		public ActionResult ReturnBook(int id)
 		{
 			var book = _bookRepository.GetBookById(id);

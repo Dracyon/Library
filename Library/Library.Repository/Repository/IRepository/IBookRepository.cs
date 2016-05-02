@@ -12,7 +12,7 @@ namespace Library.Repository.Repository.IRepository
 		void UpdateBook(Book book);
 		IEnumerable<Category> GetCategories();
 		void SaveChanges();
-		void RentBookToFriend(RentHistory rentHistory);
+		void RentBookToFriend(RentHistory rentHistory, Book book);
 		void ReturnBookFromFriend(Book book);
 	}
 }

@@ -58,9 +58,8 @@ namespace Library.Repository.Repository
 			_db.SaveChanges();
 		}
 
-		public void RentBookToFriend(RentHistory rentHistory)
+		public void RentBookToFriend(RentHistory rentHistory, Book book)
 		{
-			var book = GetBookById(rentHistory.Book.Id);
 			book.Available = false;
 			book.RentHistories.Add(new RentHistory()
 			{
